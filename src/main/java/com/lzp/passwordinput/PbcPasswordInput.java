@@ -16,6 +16,8 @@ public class PbcPasswordInput {
 
     public static void main(String[] args) throws Exception {
         String value = "helloworld";
-        VirtualKeyBoard.simulateTextInputWithClassName("Internet Explorer_Server", "ATL:Edit", value);
+//        VirtualKeyBoard.simulateTextInputWithClassName("Internet Explorer_Server", "ATL:Edit", value);
+        inputToNotepad(value);
     }
+
 }

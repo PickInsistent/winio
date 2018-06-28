@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TestNG" verbose="2" parallel="tests" thread-count="20"
+       data-provider-thread-count="20">
+    <test name="chrome01">
+        <classes>
+            <class name="com.lzp.webdriver.TestNgChromeTest">
+                <methods>
+                    <include name="testChrome" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
