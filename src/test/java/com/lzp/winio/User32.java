@@ -1,4 +1,4 @@
-package com.lzp.util.winio;
+package com.lzp.winio;
 
 import com.sun.jna.Native;
 import com.sun.jna.win32.StdCallLibrary;
