@@ -4,6 +4,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClick
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElementLocated;
 
+import com.sun.jna.platform.win32.WinDef;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -42,20 +43,30 @@ public class InternetExplorerTest {
     }
 
     @Test
-    public void test() {
-        // Your test code here. For example:
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        driver.get("https://en.wikipedia.org/wiki/Main_Page");
+    public void test() throws InterruptedException {
+        Multi a = new Multi();
+        Multi b = new Multi();
+        a.run();
+        b.run();
 
-        By searchInput = By.id("searchInput");
-        wait.until(presenceOfElementLocated(searchInput));
-        driver.findElement(searchInput).sendKeys("Software");
-        By searchButton = By.id("searchButton");
-        wait.until(elementToBeClickable(searchButton));
-        driver.findElement(searchButton).click();
-
-        wait.until(textToBePresentInElementLocated(By.tagName("body"),
-                "Computer software"));
     }
 
+    public class Multi extends Thread{
+
+        @Override
+        public void run(){
+            // Your test code here. For example:
+            WebDriverWait wait = new WebDriverWait(driver, 30);
+            driver.get("https://en.wikipedia.org/wiki/Main_Page");
+            By searchInput = By.id("searchInput");
+            wait.until(presenceOfElementLocated(searchInput));
+            driver.findElement(searchInput).sendKeys("Software");
+            By searchButton = By.id("searchButton");
+            wait.until(elementToBeClickable(searchButton));
+            driver.findElement(searchButton).click();
+
+            wait.until(textToBePresentInElementLocated(By.tagName("body"),
+                    "Computer software"));
+        }
+    }
 }
