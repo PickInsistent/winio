@@ -3,7 +3,7 @@ package com.lzp.winio;
 import com.sun.jna.NativeLibrary;
 import com.sun.jna.platform.win32.WinDef.HWND;
 
-import static com.lzp.util.winio.User32.INSTANCE;
+import static com.lzp.util.user32.User32.INSTANCE;
 
 public class VirtualKeyBoard {
 

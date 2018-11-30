@@ -9,7 +9,7 @@ import com.sun.jna.platform.win32.WinUser;
 
 import java.util.concurrent.*;
 
-import static com.lzp.util.winio.User32.INSTANCE;
+import static com.lzp.util.user32.User32.INSTANCE;
 
 public class Win32Util {
 

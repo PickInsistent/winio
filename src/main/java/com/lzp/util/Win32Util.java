@@ -1,15 +1,23 @@
-package com.lzp.util.winio;
+package com.lzp.util;
 
+import com.lzp.util.user32.User32;
+import com.lzp.util.winio.VKMapping;
+import com.lzp.util.winio.VirtualKeyBoard;
+import com.lzp.util.winio.WinIo;
 import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinDef.*;
 import com.sun.jna.platform.win32.WinUser;
 
 import java.util.concurrent.*;
 
-import static com.lzp.util.winio.User32.INSTANCE;
+import static com.lzp.util.user32.User32.INSTANCE;
 
+/**
+ * 调用windows其他功能接口的工具类
+ */
 public class Win32Util {
 
 	public static final int WM_SETTEXT = 0x000C; //输入文本
@@ -20,35 +28,22 @@ public class Win32Util {
 
 	private static final int N_MAX_COUNT = 512;
 
-	public static LPARAM buildLPARAM(int vk, int flag) {
+	//根据虚拟键码和按下松开标志构建LPARAM
+	public static WinDef.LPARAM buildLPARAM(int vk, int flag) {
 		StringBuffer buffer = new StringBuffer();
 		switch (flag) {
-		case User32.WM_KEYDOWN:
-			buffer.append("00");
-			break;
-		case User32.WM_KEYUP:
-			buffer.append("c0");
-			break;
-		default:
-			throw new RuntimeException("invalid flag");
+			case User32.WM_KEYDOWN:
+				buffer.append("00");
+				break;
+			case User32.WM_KEYUP:
+				buffer.append("c0");
+				break;
+			default:
+				throw new RuntimeException("invalid flag");
 		}
-		buffer.append(Integer.toHexString(INSTANCE.MapVirtualKey(vk, 0)));
+		buffer.append(Integer.toHexString(User32.INSTANCE.MapVirtualKey(vk, 0)));
 		buffer.append("0001");
-
-		return new LPARAM(Long.parseLong(buffer.toString(), 16));
-	}
-
-	public static void KBCWait4IBE() throws Exception {
-		int val;
-		do {
-			Pointer p = new Memory(8);
-			if (!WinIo.INSTANCE.GetPortVal(WinIo.CONTROL_PORT, p, 1)) {
-				throw new RuntimeException("Cannot get the Port");
-			}
-
-			val = p.getInt(0);
-
-		} while ((0x2 & val) > 0);
+		return new WinDef.LPARAM(Long.parseLong(buffer.toString(), 16));
 	}
 
 	public static HWND findHandle(String browserClassName, String alieditClassName) {
@@ -182,6 +177,25 @@ public class Win32Util {
 		} catch(Exception e) {
 			return false;
 		}
+	}
+
+	public static boolean simulateTextInputByWinio(String browserClassName, String alieditClassName, String content) throws Exception {
+		HWND handle = Win32Util.findHandle(browserClassName, alieditClassName);
+		return simulateTextInputByWinio(handle, content);
+	}
+
+	public static boolean simulateTextInputByWinio(HWND hwnd, String content) throws Exception {
+		if(null == hwnd) {
+			return false;
+		}
+		INSTANCE.SwitchToThisWindow(hwnd, true);
+		INSTANCE.SetFocus(hwnd);
+		for(char key : content.toCharArray()) {
+			Thread.sleep(300);
+			System.out.println(key);
+			VirtualKeyBoard.KeyPress(key);
+		}
+		return true;
 	}
 
 	public static boolean simulateClick(final HWND hwnd) {

@@ -3,7 +3,7 @@
        data-provider-thread-count="20">
     <test name="chrome01">
         <classes>
-            <class name="com.lzp.webdriver.TestNgChromeTest">
+            <class name="com.lzp.webdriver.ChromeTest">
                 <methods>
                     <include name="testChrome" />
                 </methods>

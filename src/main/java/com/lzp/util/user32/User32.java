@@ -1,9 +1,13 @@
-package com.lzp.util.winio;
+package com.lzp.util.user32;
 
 import com.sun.jna.Native;
 import com.sun.jna.win32.StdCallLibrary;
 import com.sun.jna.win32.W32APIOptions;
 
+/**
+ * 使用jna加载并调用User32.dll文件
+ * 获取窗口等
+ */
 public interface User32 extends StdCallLibrary,
         com.sun.jna.platform.win32.User32 {
     /** Instance of USER32.DLL for use in accessing native functions. */
@@ -14,6 +18,7 @@ public interface User32 extends StdCallLibrary,
      * Translates (maps) a virtual-key code into a scan code or
      * character value, or translates a scan code into a virtual-key
      * code.
+     * 将一个虚拟键码翻译成一个扫描码或字符值，或讲一个扫描码翻译成虚拟键码
      *
      * @param uCode The virtual key code or scan code for a key.
      * @param uMapType The translation to be performed.
@@ -34,10 +39,13 @@ public interface User32 extends StdCallLibrary,
 
     HWND GetForegroundwindow();
 
+    //调用windows消息系统的接口发送虚拟键码字节信息
     int SendMessage(HWND hWnd, int dwFlags, byte bVk, int dwExtraInfo);
 
+    //调用windows消息系统的接口发送虚拟键码和扫描码信息
     int SendMessage(HWND hWnd, int Msg, int wParam, String lParam);
 
+    //调用windows消息系统的接口发送扫描码字节信息
     void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
 
     void SwitchToThisWindow(HWND hWnd, boolean fAltTab);

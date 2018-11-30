@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -14,20 +14,20 @@ import static org.junit.Assert.assertNotNull;
  * description
  *
  * @author: lizhanping
- * @date: 2018/6/28 22:11
+ * @date: 2018/6/28 22:14
  **/
-public class InternetExplorerTest {
+public class ChromeTest {
 
     private WebDriver driver;
 
     @BeforeClass
     public static void setupClass() {
-        WebDriverManager.iedriver().setup();
+        WebDriverManager.chromedriver().setup();
     }
 
     @Before
     public void setupTest() {
-        driver = new InternetExplorerDriver();
+        driver = new ChromeDriver();
     }
 
     @After
@@ -38,8 +38,8 @@ public class InternetExplorerTest {
     }
 
     @Test
-    public void test() throws InterruptedException {
+    public void test() {
         assertNotNull(driver);
-        driver.get("https://whgjj.hkbchina.com/portal/pc/login.html");
+        driver.get("https://www.baidu.com");
     }
 }

@@ -5,6 +5,9 @@ import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.win32.W32APIOptions;
 
+/**
+ * 使用jna加载并调用WinIo.dll文件
+ */
 public interface WinIo extends Library {
 	String arch = System.getProperty("os.arch");
 	String winio = "x86".equals(arch) ? "WinIo32" : "WinIo64";
